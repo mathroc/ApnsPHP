@@ -16,5 +16,13 @@
         "psr-4": {
             "ApnsPHP\\": "ApnsPHP"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }

@@ -276,12 +276,9 @@ class Push extends SharedConfig
     }
 
     /**
-     * Send a message using the HTTP/2 API protocol.
-     *
-     * @param string $reply The reply message.
-     * @return bool success of API call
+     * @return string[]
      */
-    private function httpSend(Message $message, &$reply)
+    private function getHttpHeaders(Message $message): array
     {
         $headers = ['Content-Type: application/json'];
         if (!empty($message->getTopic())) {
@@ -305,6 +302,19 @@ class Push extends SharedConfig
         if (!empty($this->providerToken)) {
             $headers[] = sprintf('Authorization: Bearer %s', $this->providerToken);
         }
+
+        return $headers;
+    }
+
+    /**
+     * Send a message using the HTTP/2 API protocol.
+     *
+     * @param string $reply The reply message.
+     * @return bool success of API call
+     */
+    private function httpSend(Message $message, &$reply)
+    {
+        $headers = $this->getHttpHeaders($message);
 
         if (
             !(curl_setopt_array($this->hSocket, [
