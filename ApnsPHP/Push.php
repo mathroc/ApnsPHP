@@ -302,6 +302,9 @@ class Push extends SharedConfig
         if (!empty($message->getCustomIdentifier())) {
             $headers[] = sprintf('apns-id: %s', $message->getCustomIdentifier());
         }
+        if ($message->getPushType() !== null) {
+            $headers[] = sprintf('apns-push-type: %s', $message->getPushType());
+        }
         if (!empty($this->providerToken)) {
             $headers[] = sprintf('Authorization: Bearer %s', $this->providerToken);
         }
