@@ -41,7 +41,7 @@ class EmbeddedLogger extends AbstractLogger implements \Psr\Log\LoggerInterface
      * @param array $context
      * @return void
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         printf(
             "%s: %s ApnsPHP[%d]: %s\n",

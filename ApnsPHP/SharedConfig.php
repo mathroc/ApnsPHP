@@ -75,10 +75,10 @@ abstract class SharedConfig
      * @var array Container for service URLs environments.
      * @deprecated
      */
-    protected $serviceURLs = array();
+    protected $serviceURLs = [];
 
     /** @var array Container for HTTP/2 service URLs environments. */
-    protected $HTTPServiceURLs = array();
+    protected $HTTPServiceURLs = [];
 
     /** @var int Active environment. */
     protected $environment;
@@ -526,11 +526,11 @@ abstract class SharedConfig
         /**
          * @see http://php.net/manual/en/context.ssl.php
          */
-        $streamContext = stream_context_create(array('ssl' => array(
+        $streamContext = stream_context_create(['ssl' => [
             'verify_peer' => isset($this->rootCertAuthorityFile),
             'cafile' => $this->rootCertAuthorityFile,
             'local_cert' => $this->providerCertFile
-        )));
+        ]]);
 
         if (!empty($this->providerCertPassphrase)) {
             stream_context_set_option(

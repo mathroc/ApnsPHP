@@ -202,7 +202,7 @@ class CustomMessage extends Message
     {
         $payload = parent::getPayloadDictionary();
 
-        $payload['aps']['alert'] = array();
+        $payload['aps']['alert'] = [];
 
         if (isset($this->text) && !isset($this->locKey)) {
             $payload['aps']['alert']['body'] = (string)$this->text;

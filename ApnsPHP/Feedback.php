@@ -41,11 +41,11 @@ class Feedback extends SharedConfig
     /** @var int Token length binary size in bytes. */
     protected const TOKEN_LENGTH_BINARY_SIZE = 2;
 
-    protected $serviceURLs = array(
     /** @var string[] Feedback URLs environments. */
+    protected $serviceURLs = [
         'tls://feedback.push.apple.com:2196', // Production environment
         'tls://feedback.sandbox.push.apple.com:2196' // Sandbox environment
-    );
+    ];
 
     /** @var array Feedback container. */
     protected $feedback;
@@ -69,7 +69,7 @@ class Feedback extends SharedConfig
     {
         $feedbackTupleLength = self::TIME_BINARY_SIZE + self::TOKEN_LENGTH_BINARY_SIZE + self::DEVICE_BINARY_SIZE;
 
-        $this->feedback = array();
+        $this->feedback = [];
         $buffer = '';
         while (!feof($this->hSocket)) {
             $this->logger()->info('Reading...');
@@ -98,7 +98,7 @@ class Feedback extends SharedConfig
                 }
             }
 
-            $read = array($this->hSocket);
+            $read = [$this->hSocket];
             $null = null;
             $changedStreams = stream_select($read, $null, $null, 0, $this->socketSelectTimeout);
             if ($changedStreams === false) {

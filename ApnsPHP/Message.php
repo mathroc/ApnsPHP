@@ -42,7 +42,7 @@ class Message
     protected $autoAdjustLongPayload = true;
 
     /** @var array Recipients device tokens. */
-    protected $deviceTokens = array();
+    protected $deviceTokens = [];
 
     /** @var string Alert message to display to the user. */
     protected $text;
@@ -407,7 +407,7 @@ class Message
     public function getCustomPropertyNames()
     {
         if (!is_array($this->customProperties)) {
-            return array();
+            return [];
         }
         return array_keys($this->customProperties);
     }
@@ -474,12 +474,12 @@ class Message
      */
     protected function getPayloadDictionary()
     {
-        $payload[self::APPLE_RESERVED_NAMESPACE] = array();
+        $payload[self::APPLE_RESERVED_NAMESPACE] = [];
 
         if (isset($this->text)) {
             if (isset($this->title) && strlen($this->title) > 0) {
                 // if the title is set, use it
-                $payload[self::APPLE_RESERVED_NAMESPACE]['alert'] = array();
+                $payload[self::APPLE_RESERVED_NAMESPACE]['alert'] = [];
                 $payload[self::APPLE_RESERVED_NAMESPACE]['alert']['title'] =  (string)$this->title;
                 $payload[self::APPLE_RESERVED_NAMESPACE]['alert']['body'] = (string)$this->text;
             } else {

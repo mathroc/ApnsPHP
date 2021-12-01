@@ -51,7 +51,7 @@ class Server extends Push
     protected $processes = 3;
 
     /** @var array Array of process PIDs. */
-    protected $pids = array();
+    protected $pids = [];
 
     /** @var int The parent process id. */
     protected $parentPid;
@@ -91,11 +91,11 @@ class Server extends Push
             );
         }
 
-        register_shutdown_function(array($this, 'onShutdown'));
+        register_shutdown_function([$this, 'onShutdown']);
 
-        pcntl_signal(SIGCHLD, array($this, 'onChildExited'));
-        foreach (array(SIGTERM, SIGQUIT, SIGINT) as $signal) {
-            pcntl_signal($signal, array($this, 'onSignal'));
+        pcntl_signal(SIGCHLD, [$this, 'onChildExited']);
+        foreach ([SIGTERM, SIGQUIT, SIGINT] as $signal) {
+            pcntl_signal($signal, [$this, 'onSignal']);
         }
     }
 
@@ -103,12 +103,12 @@ class Server extends Push
      * Checks if the server is running and calls signal handlers for pending signals.
      *
      * Example:
-     * @code
+     * ```
      * while ($Server->run()) {
      *     // do somethings...
      *     usleep(200000);
      * }
-     * @endcode
+     * ```
      *
      * @return bool True if the server is running.
      */
@@ -260,7 +260,7 @@ class Server extends Push
      */
     public function getMessageQueue($empty = true)
     {
-        $messages = array();
+        $messages = [];
         sem_acquire($this->sem);
         for ($i = 0; $i < $this->processes; $i++) {
             $messages = array_merge($messages, $this->getSHMQueue(self::SHM_MESSAGES_QUEUE_KEY_START, $i));
@@ -285,7 +285,7 @@ class Server extends Push
         sem_acquire($this->sem);
         $messages = $this->getSHMQueue(self::SHM_ERROR_MESSAGES_QUEUE_KEY);
         if ($empty) {
-            $this->setSHMQueue(self::SHM_ERROR_MESSAGES_QUEUE_KEY, 0, array());
+            $this->setSHMQueue(self::SHM_ERROR_MESSAGES_QUEUE_KEY, 0, []);
         }
         sem_release($this->sem);
         return $messages;
@@ -344,7 +344,7 @@ class Server extends Push
     protected function getSHMQueue($queueKey, $process = 0)
     {
         if (!shm_has_var($this->shm, $queueKey + $process)) {
-            return array();
+            return [];
         }
         return shm_get_var($this->shm, $queueKey + $process);
     }
@@ -359,10 +359,10 @@ class Server extends Push
      *         The default value is an empty array, useful to empty the queue.
      * @return bool True on success, false otherwise.
      */
-    protected function setSHMQueue($queueKey, $process = 0, $queue = array())
+    protected function setSHMQueue($queueKey, $process = 0, $queue = [])
     {
         if (!is_array($queue)) {
-            $queue = array();
+            $queue = [];
         }
         return shm_put_var($this->shm, $queueKey + $process, $queue);
     }

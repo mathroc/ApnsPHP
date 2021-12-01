@@ -46,7 +46,7 @@ class Push extends SharedConfig
      * @var array<int, string> Error-response messages.
      * @deprecated
      */
-    protected $errorResponseMessages = array(
+    protected $errorResponseMessages = [
         0   => 'No errors encountered',
         1   => 'Processing error',
         2   => 'Missing device token',
@@ -57,10 +57,10 @@ class Push extends SharedConfig
         7   => 'Invalid payload size',
         8   => 'Invalid token',
         self::STATUS_CODE_INTERNAL_ERROR => 'Internal error'
-    );
+    ];
 
-    protected $HTTPErrorResponseMessages = array(
     /** @var array<int, string> HTTP/2 Error-response messages. */
+    protected $HTTPErrorResponseMessages = [
         200 => 'Success',
         400 => 'Bad request',
         403 => 'There was an error with the certificate',
@@ -71,28 +71,28 @@ class Push extends SharedConfig
         500 => 'Internal server error',
         503 => 'The server is shutting down and unavailable',
         self::STATUS_CODE_INTERNAL_ERROR => 'Internal error'
-    );
+    ];
 
     /** @var int Send retry times. */
     protected $sendRetryTimes = 3;
 
-    protected $serviceURLs = array(
     /** @var string[] Service URLs environments. */
+    protected $serviceURLs = [
         'tls://gateway.push.apple.com:2195', // Production environment
         'tls://gateway.sandbox.push.apple.com:2195' // Sandbox environment
-    );
+    ];
 
-    protected $HTTPServiceURLs = array(
     /** @var string[] HTTP/2 Service URLs environments. */
+    protected $HTTPServiceURLs = [
         'https://api.push.apple.com:443', // Production environment
         'https://api.development.push.apple.com:443' // Sandbox environment
-    );
+    ];
 
-    protected $messageQueue = array();
     /** @var array<int, array> Message queue. */
+    protected $messageQueue = [];
 
-    protected $errors = array();
     /** @var array<int, array> Error container. */
+    protected $errors = [];
 
     /**
      * Set the send retry times value.
@@ -119,8 +119,6 @@ class Push extends SharedConfig
 
     /**
      * Adds a message to the message queue.
-     *
-     * @param ApnsPHPMessage $message The message.
      */
     public function add(Message $message)
     {
@@ -130,10 +128,10 @@ class Push extends SharedConfig
         $messageQueueLen = count($this->messageQueue);
         for ($i = 0; $i < $recipients; $i++) {
             $messageId = $messageQueueLen + $i + 1;
-            $messages = array(
+            $messages = [
                 'MESSAGE' => $message->selfForRecipient($i),
-                'ERRORS' => array()
-            );
+                'ERRORS' => []
+            ];
             if ($this->protocol === self::PROTOCOL_BINARY) {
                 $messages['BINARY_NOTIFICATION'] = $this->getBinaryNotification(
                     $message->getRecipient($i),
@@ -163,7 +161,7 @@ class Push extends SharedConfig
             );
         }
 
-        $this->errors = array();
+        $this->errors = [];
         $run = 1;
         while (($messageAmount = count($this->messageQueue)) > 0) {
             $this->logger()->info("Sending messages queue, run #{$run}: $messageAmount message(s) left in queue.");
@@ -218,15 +216,15 @@ class Push extends SharedConfig
 
                 if ($this->protocol === self::PROTOCOL_HTTP) {
                     if (!$this->httpSend($message, $reply)) {
-                        $errorMessage = array(
+                        $errorMessage = [
                             'identifier' => $key,
                             'statusCode' => curl_getinfo($this->hSocket, CURLINFO_HTTP_CODE),
                             'statusMessage' => $reply
-                        );
+                        ];
                     }
                 } else {
                     if ($messageBytes !== ($written = (int)@fwrite($this->hSocket, $messages['BINARY_NOTIFICATION']))) {
-                        $errorMessage = array(
+                        $errorMessage = [
                             'identifier' => $key,
                             'statusCode' => self::STATUS_CODE_INTERNAL_ERROR,
                             'statusMessage' => sprintf(
@@ -235,7 +233,7 @@ class Push extends SharedConfig
                                 $written,
                                 $messageBytes
                             )
-                        );
+                        ];
                     }
                 }
                 usleep($this->writeInterval);
@@ -248,7 +246,7 @@ class Push extends SharedConfig
 
             if (!$error) {
                 if ($this->protocol === self::PROTOCOL_BINARY) {
-                    $read = array($this->hSocket);
+                    $read = [$this->hSocket];
                     $null = null;
                     $changedStreams = @stream_select(
                         $read,
@@ -263,13 +261,13 @@ class Push extends SharedConfig
                     } elseif ($changedStreams > 0) {
                         $error = $this->updateQueue();
                         if (!$error) {
-                            $this->messageQueue = array();
+                            $this->messageQueue = [];
                         }
                     } else {
-                        $this->messageQueue = array();
+                        $this->messageQueue = [];
                     }
                 } else {
-                    $this->messageQueue = array();
+                    $this->messageQueue = [];
                 }
             }
 
@@ -280,13 +278,12 @@ class Push extends SharedConfig
     /**
      * Send a message using the HTTP/2 API protocol.
      *
-     * @param ApnsPHPMessage $message The message.
      * @param string $reply The reply message.
      * @return bool success of API call
      */
     private function httpSend(Message $message, &$reply)
     {
-        $headers = array('Content-Type: application/json');
+        $headers = ['Content-Type: application/json'];
         if (!empty($message->getTopic())) {
             $headers[] = sprintf('apns-topic: %s', $message->getTopic());
         }
@@ -310,16 +307,16 @@ class Push extends SharedConfig
         }
 
         if (
-            !(curl_setopt_array($this->hSocket, array(
-            CURLOPT_POST => true,
-            CURLOPT_URL => sprintf(
-                '%s/3/device/%s',
-                $this->HTTPServiceURLs[$this->environment],
-                $message->getRecipient()
-            ),
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => $message->getPayload()
-            )) && ($reply = curl_exec($this->hSocket)) !== false)
+            !(curl_setopt_array($this->hSocket, [
+                CURLOPT_POST => true,
+                CURLOPT_URL => sprintf(
+                    '%s/3/device/%s',
+                    $this->HTTPServiceURLs[$this->environment],
+                    $message->getRecipient()
+                ),
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_POSTFIELDS => $message->getPayload()
+            ]) && ($reply = curl_exec($this->hSocket)) !== false)
         ) {
             return false;
         }
@@ -341,7 +338,7 @@ class Push extends SharedConfig
     {
         $messages = $this->messageQueue;
         if ($empty) {
-            $this->messageQueue = array();
+            $this->messageQueue = [];
         }
         return $messages;
     }
@@ -351,14 +348,13 @@ class Push extends SharedConfig
      * occurred.
      *
      * @param bool $empty @optional Empty message container.
-     * @return array Array of messages not delivered because one or more errors
-     *         occurred.
+     * @return array Array of messages not delivered because one or more errors occurred.
      */
     public function getErrors($empty = true)
     {
         $messages = $this->errors;
         if ($empty) {
-            $this->errors = array();
+            $this->errors = [];
         }
         return $messages;
     }
@@ -376,6 +372,7 @@ class Push extends SharedConfig
      *         Pass a negative value (-1 for example) to request that APNs not store
      *         the notification at all. Default is 86400 * 7, 7 days.
      * @return string A binary notification.
+     * @deprecated
      */
     protected function getBinaryNotification($deviceToken, $payload, $messageId = 0, $expire = 604800)
     {
@@ -401,6 +398,7 @@ class Push extends SharedConfig
      *
      * @param string $errorMessage The Error Message.
      * @return array Array with command, statusCode and identifier keys.
+     * @deprecated
      */
     protected function parseErrorMessage($errorMessage)
     {
@@ -445,7 +443,7 @@ class Push extends SharedConfig
      *         always be read from the main stream. The latest successful message
      *         sent is the lowest between this error message and the message that
      *         was read from the main stream.
-     *         @return boolean True if an error was received.
+     *         @return bool True if an error was received.
      * @see readErrorMessage()
      */
     protected function updateQueue($errorMessages = null)

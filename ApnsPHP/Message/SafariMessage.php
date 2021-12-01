@@ -89,7 +89,7 @@ class SafariMessage extends Message
      */
     protected function getPayloadDictionary()
     {
-        $payload[self::APPLE_RESERVED_NAMESPACE]['alert'] = array();
+        $payload[self::APPLE_RESERVED_NAMESPACE]['alert'] = [];
 
         if (isset($this->title)) {
             $payload[self::APPLE_RESERVED_NAMESPACE]['alert']['title'] = (string)$this->title;
