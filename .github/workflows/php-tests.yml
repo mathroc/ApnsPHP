@@ -5,14 +5,11 @@ jobs:
   php:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    name: "PHP-${{ matrix.php-versions }}: CS/PHPStan/Sample"
+    name: "PHP-${{ matrix.php-versions }}: Tests/Quality"
     strategy:
       matrix:
-        php-versions: ['7.4']
+        php-versions: ['7.4', '8.0']
         experimental: [false]
-        include:
-          - php-versions: 8.0
-            experimental: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,8 +27,11 @@ jobs:
         continue-on-error: false
         run: phpcs -q --report=checkstyle ApnsPHP --standard=PSR12 | cs2pr
 
-      - name: Install dependencies
-        run: composer install
+      - name: Install composer dependencies
+        run: composer i
+
+      - name: Run test suite
+        run: ./vendor/bin/phpunit --testdox tests
 
       - name: Run PHPStan
         run: phpstan analyse ApnsPHP -l0
@@ -41,5 +41,5 @@ jobs:
           touch entrust_root_certification_authority.pem
           touch server_certificates_bundle_sandbox.pem
 
-      - name: Run sample
-        run: php sample_push.php | grep "Trying tls://gateway.sandbox.push.apple.com:2195"
+      - name: Run sample_push.php
+        run: php sample_push.php | grep "Sending message ID"
