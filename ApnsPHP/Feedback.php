@@ -27,7 +27,7 @@ namespace ApnsPHP;
  * updates with a per-application list of devices for which there were failed-delivery
  * attempts. Providers should periodically query the feedback service to get the
  * list of device tokens for their applications, each of which is identified by
- * its topic. Then, after verifying that the application hasn’t recently been re-registered
+ * its topic. Then, after verifying that the application hasn't’t recently been re-registered
  * on the identified devices, a provider should stop sending notifications to these
  * devices.
  *
@@ -35,18 +35,20 @@ namespace ApnsPHP;
  */
 class Feedback extends SharedConfig
 {
-    /**< @type integer Timestamp binary size in bytes. */
+    /** @var integer Timestamp binary size in bytes. */
     protected const TIME_BINARY_SIZE = 4;
 
-    /**< @type integer Token length binary size in bytes. */
+    /** @var integer Token length binary size in bytes. */
     protected const TOKEN_LENGTH_BINARY_SIZE = 2;
 
+    /** @var array Feedback URLs environments. */
     protected $serviceURLs = array(
         'tls://feedback.push.apple.com:2196', // Production environment
         'tls://feedback.sandbox.push.apple.com:2196' // Sandbox environment
-    ); /**< @type array Feedback URLs environments. */
+    );
 
-    protected $feedback; /**< @type array Feedback container. */
+    /** @var array Feedback container. */
+    protected $feedback;
 
     /**
      * Receives feedback tuples from Apple Push Notification Service feedback.
@@ -112,6 +114,7 @@ class Feedback extends SharedConfig
      *
      * @param  $binaryTuple @type string A binary tuple to parse.
      * @return @type array Array with timestamp, tokenLength and deviceToken keys.
+     * @deprecated
      */
     protected function parseBinaryTuple($binaryTuple)
     {

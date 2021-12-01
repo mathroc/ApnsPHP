@@ -30,19 +30,22 @@ use ApnsPHP\Push\Exception;
  */
 class Push extends SharedConfig
 {
-    /**< @type integer Payload command. */
+    /** @var integer Payload command. */
     protected const COMMAND_PUSH = 1;
 
-    /**< @type integer Error-response packet size. */
+    /** @var integer Error-response packet size. */
     protected const ERROR_RESPONSE_SIZE = 6;
 
-    /**< @type integer Error-response command code. */
+    /** @var integer Error-response command code. */
     protected const ERROR_RESPONSE_COMMAND = 8;
 
-    /**< @type integer Status code for internal error (not Apple). */
+    /** @var integer Status code for internal error (not Apple). */
     protected const STATUS_CODE_INTERNAL_ERROR = 999;
 
-    /**< @type array Error-response messages. */
+    /**
+     * @var array Error-response messages.
+     * @deprecated
+     */
     protected $errorResponseMessages = array(
         0   => 'No errors encountered',
         1   => 'Processing error',
@@ -56,7 +59,7 @@ class Push extends SharedConfig
         self::STATUS_CODE_INTERNAL_ERROR => 'Internal error'
     );
 
-    /**< @type array HTTP/2 Error-response messages. */
+    /** @var array HTTP/2 Error-response messages. */
     protected $HTTPErrorResponseMessages = array(
         200 => 'Success',
         400 => 'Bad request',
@@ -70,25 +73,25 @@ class Push extends SharedConfig
         self::STATUS_CODE_INTERNAL_ERROR => 'Internal error'
     );
 
-    /**< @type integer Send retry times. */
+    /** @var int Send retry times. */
     protected $sendRetryTimes = 3;
 
-    /**< @type array Service URLs environments. */
+    /** @var array Service URLs environments. */
     protected $serviceURLs = array(
         'tls://gateway.push.apple.com:2195', // Production environment
         'tls://gateway.sandbox.push.apple.com:2195' // Sandbox environment
     );
 
-    /**< @type array HTTP/2 Service URLs environments. */
+    /** @var array HTTP/2 Service URLs environments. */
     protected $HTTPServiceURLs = array(
         'https://api.push.apple.com:443', // Production environment
         'https://api.development.push.apple.com:443' // Sandbox environment
     );
 
-    /**< @type array Message queue. */
+    /** @var array Message queue. */
     protected $messageQueue = array();
 
-    /**< @type array Error container. */
+    /** @var array Error container. */
     protected $errors = array();
 
     /**
@@ -107,7 +110,7 @@ class Push extends SharedConfig
     /**
      * Get the send retry time value.
      *
-     * @return @type integer Send retry times.
+     * @return integer Send retry times.
      */
     public function getSendRetryTimes()
     {
@@ -329,7 +332,7 @@ class Push extends SharedConfig
      * method to retrive messages with delivery error(s).
      *
      * @param  $empty @type boolean @optional Empty message queue.
-     * @return @type array Array of messages left on the queue.
+     * @return array Array of messages left on the queue.
      */
     public function getMessageQueue($empty = true)
     {
@@ -345,7 +348,7 @@ class Push extends SharedConfig
      * occurred.
      *
      * @param  $empty @type boolean @optional Empty message container.
-     * @return @type array Array of messages not delivered because one or more errors
+     * @return array Array of messages not delivered because one or more errors
      *         occurred.
      */
     public function getErrors($empty = true)
@@ -369,7 +372,7 @@ class Push extends SharedConfig
      *         identifies when the notification is no longer valid and can be discarded.
      *         Pass a negative value (-1 for example) to request that APNs not store
      *         the notification at all. Default is 86400 * 7, 7 days.
-     * @return @type string A binary notification.
+     * @return string A binary notification.
      */
     protected function getBinaryNotification($deviceToken, $payload, $messageId = 0, $expire = 604800)
     {
@@ -394,7 +397,7 @@ class Push extends SharedConfig
      * Parses the error message.
      *
      * @param  $errorMessage @type string The Error Message.
-     * @return @type array Array with command, statusCode and identifier keys.
+     * @return array Array with command, statusCode and identifier keys.
      */
     protected function parseErrorMessage($errorMessage)
     {
@@ -406,7 +409,7 @@ class Push extends SharedConfig
      * If the error message is present and valid the error message is returned,
      * otherwhise null is returned.
      *
-     * @return @type array|null Return the error message array.
+     * @return array|null Return the error message array.
      */
     protected function readErrorMessage()
     {
@@ -439,7 +442,7 @@ class Push extends SharedConfig
      *         always be read from the main stream. The latest successful message
      *         sent is the lowest between this error message and the message that
      *         was read from the main stream.
-     *         @return @type boolean True if an error was received.
+     *         @return boolean True if an error was received.
      * @see readErrorMessage()
      */
     protected function updateQueue($errorMessages = null)

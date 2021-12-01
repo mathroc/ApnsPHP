@@ -44,84 +44,88 @@ use Lcobucci\JWT\Configuration;
  */
 abstract class SharedConfig
 {
-    /**< @type integer Production environment. */
+    /** @var int Production environment. */
     public const ENVIRONMENT_PRODUCTION = 0;
 
-    /**< @type integer Sandbox environment. */
+    /** @var int Sandbox environment. */
     public const ENVIRONMENT_SANDBOX = 1;
 
-    /**< @type integer Binary Provider API. */
+    /**
+     * @var int Binary Provider API.
+     * @deprecated
+     */
     public const PROTOCOL_BINARY = 0;
 
-    /**< @type integer APNs Provider API. */
+    /** @var int APNs Provider API. */
     public const PROTOCOL_HTTP   = 1;
 
-    /**< @type integer Device token length. */
+    /** @var int Device token length. */
     public const DEVICE_BINARY_SIZE = 32;
 
-    /**< @type integer Default write interval in micro seconds. */
+    /** @var int Default write interval in micro seconds. */
     public const WRITE_INTERVAL = 10000;
 
-    /**< @type integer Default connect retry interval in micro seconds. */
+    /** @var int Default connect retry interval in micro seconds. */
     public const CONNECT_RETRY_INTERVAL = 1000000;
 
-    /**< @type integer Default socket select timeout in micro seconds. */
+    /** @var int Default socket select timeout in micro seconds. */
     public const SOCKET_SELECT_TIMEOUT = 1000000;
 
-    /**< @type array Container for service URLs environments. */
+    /**
+     * @var array Container for service URLs environments.
+     * @deprecated
+     */
     protected $serviceURLs = array();
 
-    /**< @type array Container for HTTP/2 service URLs environments. */
+    /** @var array Container for HTTP/2 service URLs environments. */
     protected $HTTPServiceURLs = array();
 
-    /**< @type integer Active environment. */
+    /** @var int Active environment. */
     protected $environment;
 
-    /**< @type integer Active protocol. */
+    /** @var int Active protocol. */
     protected $protocol;
 
-    /**< @type integer Connect timeout in seconds. */
+    /** @var int Connect timeout in seconds. */
     protected $connectTimeout;
 
-    /**< @type integer Connect retry times. */
+    /** @var int Connect retry times. */
     protected $connectRetryTimes = 3;
 
-    /**< @type string Provider certificate file with key (Bundled PEM). */
+    /** @var string Provider certificate file with key (Bundled PEM). */
     protected $providerCertFile;
 
-    /**< @type string Provider certificate passphrase. */
+    /** @var string Provider certificate passphrase. */
     protected $providerCertPassphrase;
 
-    /**< @type string|null Provider Authentication token. */
+    /** @var string|null Provider Authentication token. */
     protected $providerToken;
 
-    /**< @type string|null Apple Team Identifier. */
+    /** @var string|null Apple Team Identifier. */
     protected $providerTeamId;
 
-    /**< @type string|null Apple Key Identifier. */
+    /** @var string|null Apple Key Identifier. */
     protected $providerKeyId;
 
-    /**< @type string Root certification authority file. */
+    /** @var string Root certification authority file. */
     protected $rootCertAuthorityFile;
 
-    /**< @type integer Write interval in micro seconds. */
+    /** @var int Write interval in micro seconds. */
     protected $writeInterval;
 
-    /**< @type integer Connect retry interval in micro seconds. */
+    /** @var int Connect retry interval in micro seconds. */
     protected $connectRetryInterval;
 
-    /**< @type integer Socket select timeout in micro seconds. */
+    /** @var int Socket select timeout in micro seconds. */
     protected $socketSelectTimeout;
 
-    /**< @type Psr\Log\LoggerInterface Logger. */
+    /** @var \Psr\Log\LoggerInterface Logger. */
     protected $logger;
 
-    /**< @type resource SSL Socket. */
+    /** @var resource SSL Socket. */
     protected $hSocket;
 
     /**
-     * Constructor.
-     *
      * @param  $environment @type integer Environment.
      * @param  $providerCertificateFile @type string Provider certificate file
      *         with key (Bundled PEM).
@@ -167,7 +171,7 @@ abstract class SharedConfig
      * and use setLogger, otherwise standard logger will be used.
      *
      * @param  $logger @type LoggerInterface Logger instance.
-     * @see Psr\Log\LoggerInterface
+     * @see \Psr\Log\LoggerInterface
      * @see EmbeddedLogger
      *
      */
@@ -190,7 +194,7 @@ abstract class SharedConfig
     /**
      * Get the Logger instance.
      *
-     * @return @type Psr\Log\LoggerInterface Current Logger instance.
+     * @return @type \Psr\Log\LoggerInterface Current Logger instance.
      */
     public function getLogger()
     {
@@ -510,6 +514,7 @@ abstract class SharedConfig
      * Connects to Apple Push Notification service server via binary protocol.
      *
      * @return @type boolean True if successful connected.
+     * @deprecated
      */
     protected function binaryConnect($URL)
     {

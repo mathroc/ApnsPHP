@@ -32,65 +32,63 @@ use ApnsPHP\Message\Exception;
  */
 class Message
 {
-    /**< @type integer The maximum size allowed for a notification payload. */
+    /** @var int The maximum size allowed for a notification payload. */
     protected const PAYLOAD_MAXIMUM_SIZE = 4096;
 
-    /**< @type string The Apple-reserved aps namespace. */
+    /** @var string The Apple-reserved aps namespace. */
     protected const APPLE_RESERVED_NAMESPACE = 'aps';
 
-    /**< @type boolean If the JSON payload is longer than maximum allowed size, shorts message text. */
+    /** @var bool If the JSON payload is longer than maximum allowed size, shorts message text. */
     protected $autoAdjustLongPayload = true;
 
-    /**< @type array Recipients device tokens. */
+    /** @var array Recipients device tokens. */
     protected $deviceTokens = array();
 
-    /**< @type string Alert message to display to the user. */
+    /** @var string Alert message to display to the user. */
     protected $text;
 
-    /**< @type string Alert title to display to the user. */
+    /** @var string Alert title to display to the user. */
     protected $title;
 
-    /**< @type integer Number to badge the application icon with. */
+    /** @var int Number to badge the application icon with. */
     protected $badge;
 
-    /**< @type string Sound to play. */
+    /** @var string Sound to play. */
     protected $sound;
 
-    /**< @type string notification category. */
+    /** @var string notification category. */
     protected $category;
 
-    /**< @type boolean True to initiates the Newsstand background download.
+    /** @var bool True to initiates the Newsstand background download.
      * @see http://tinyurl.com/ApplePushNotificationNewsstand */
     protected $contentAvailable;
 
-    /**< @type boolean True to activate mutable content key support for ios10 rich notifications.
+    /** @var bool True to activate mutable content key support for ios10 rich notifications.
      * @see https://developer.apple.com/reference/usernotifications/unnotificationserviceextension */
     protected $mutableContent;
 
-    /**< @type string notification thread-id. */
+    /** @var string notification thread-id. */
     protected $threadId;
 
-    /**< @type mixed Custom properties container. */
+    /** @var mixed Custom properties container. */
     protected $customProperties;
 
-    /**< @type integer That message will expire in 604800 seconds (86400 * 7, 7 days) if not successful delivered. */
+    /** @var integer That message will expire in 604800 seconds (86400 * 7, 7 days) if not successful delivered. */
     protected $expiryValue = 604800;
 
-    /**< @type mixed Custom message identifier. */
+    /** @var mixed Custom message identifier. */
     protected $customIdentifier;
 
-    /**< @type string The topic of the remote notification, which is typically the bundle ID for your app. */
+    /** @var string The topic of the remote notification, which is typically the bundle ID for your app. */
     protected $topic;
 
-    /**< @type string The collapse ID of the remote notification. */
+    /** @var string The collapse ID of the remote notification. */
     protected $collapseId;
 
-    /**< @type int The priority of the remote notification. */
+    /** @var int The priority of the remote notification. */
     protected $priority;
 
     /**
-     * Constructor.
-     *
      * @param  $deviceToken @type string @optional Recipients device token.
      */
     public function __construct($deviceToken = null)
