@@ -19,6 +19,10 @@ server_certificates_bundle_sandbox.pem
 UniversalPushNotificationClientSSLCertificate.p8
 *~
 Doc/Reference/html
+
+# JetBrains
+.idea/
+
 # Composer
 composer.lock
 vendor

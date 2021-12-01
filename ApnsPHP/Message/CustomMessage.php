@@ -59,7 +59,7 @@ class CustomMessage extends Message
      * empty string, the system displays an alert with a single OK button that simply
      * dismisses the alert when tapped.
      *
-     * @param  $actionLocKey @type string @optional The "View" button title, default
+     * @param string $actionLocKey @optional The "View" button title, default
      *         empty string.
      */
     public function setActionLocKey($actionLocKey = '')
@@ -70,7 +70,7 @@ class CustomMessage extends Message
     /**
      * Get the "View" button title.
      *
-     * @return @type string The "View" button title.
+     * @return string The "View" button title.
      */
     public function getActionLocKey()
     {
@@ -84,7 +84,7 @@ class CustomMessage extends Message
      * The key string can be formatted with %@ and %n$@ specifiers to take the variables
      * specified in loc-args.
      *
-     * @param  $locKey @type string The alert-message string.
+     * @param string $locKey The alert-message string.
      */
     public function setLocKey($locKey)
     {
@@ -94,7 +94,7 @@ class CustomMessage extends Message
     /**
      * Get the alert-message string in Localizable.strings file.
      *
-     * @return @type string The alert-message string.
+     * @return string The alert-message string.
      */
     public function getLocKey()
     {
@@ -105,7 +105,7 @@ class CustomMessage extends Message
      * Set the variable string values to appear in place of the format specifiers
      * in loc-key.
      *
-     * @param  $locArgs @type array The variable string values.
+     * @param array $locArgs The variable string values.
      */
     public function setLocArgs($locArgs)
     {
@@ -116,7 +116,7 @@ class CustomMessage extends Message
      * Get the variable string values to appear in place of the format specifiers
      * in loc-key.
      *
-     * @return @type string The variable string values.
+     * @return string The variable string values.
      */
     public function getLocArgs()
     {
@@ -133,7 +133,7 @@ class CustomMessage extends Message
      * key in the application’s Info.plist file, or falls back to Default.png.
      * This property was added in iOS 4.0.
      *
-     * @param  $launchImage @type string The filename of an image file.
+     * @param string $launchImage The filename of an image file.
      */
     public function setLaunchImage($launchImage)
     {
@@ -143,7 +143,7 @@ class CustomMessage extends Message
     /**
      * Get the filename of an image file in the application bundle.
      *
-     * @return @type string The filename of an image file.
+     * @return string The filename of an image file.
      */
     public function getLaunchImage()
     {
@@ -156,7 +156,7 @@ class CustomMessage extends Message
      * Currently only used when displaying notifications on Apple Watch.
      * See https://developer.apple.com/library/ios/documentation/General/Conceptual/WatchKitProgrammingGuide/BasicSupport.html#//apple_ref/doc/uid/TP40014969-CH18-SW2
      *
-     * @param  $title @type string The title displayed in the short look notification
+     * @param string $title The title displayed in the short look notification
      */
     public function setTitle($title)
     {
@@ -166,7 +166,7 @@ class CustomMessage extends Message
     /**
      * Get the title of a short look Apple Watch notification.
      *
-     * @return @type string The title displayed in the short look notification
+     * @return string The title displayed in the short look notification
      */
     public function getTitle()
     {
@@ -177,7 +177,7 @@ class CustomMessage extends Message
      * Set the subtitle of a secondary description on iOS 10.0+ and watchOS 3.0+
      * See https://developer.apple.com/reference/usernotifications/unmutablenotificationcontent/1649873-subtitle
      *
-     * @param  $subTitle @type string the subtitle of a secondary description
+     * @param string $subTitle the subtitle of a secondary description
      */
     public function setSubTitle($subTitle)
     {
@@ -187,7 +187,7 @@ class CustomMessage extends Message
     /**
      * Get the subtitle of a secondary description on iOS 10.0+ and watchOS 3.0+
      *
-     * @return @type string the subtitle of a secondary description on
+     * @return string the subtitle of a secondary description on
      */
     public function getSubTitle()
     {
@@ -196,7 +196,7 @@ class CustomMessage extends Message
     /**
      * Get the payload dictionary.
      *
-     * @return @type array The payload dictionary.
+     * @return array The payload dictionary.
      */
     protected function getPayloadDictionary()
     {

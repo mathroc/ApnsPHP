@@ -22,9 +22,6 @@ namespace ApnsPHP\Push;
 
 use ApnsPHP\Exception as ApnsPHPException;
 
-/**
- * Exception class.
- */
 class Exception extends ApnsPHPException
 {
 }

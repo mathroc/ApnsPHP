@@ -22,9 +22,6 @@ namespace ApnsPHP;
 
 use Exception as BaseException;
 
-/**
- * Exception class.
- */
 class Exception extends BaseException
 {
 }

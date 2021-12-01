@@ -34,46 +34,43 @@ use ApnsPHP\Push\Server\Exception as ServerException;
  */
 class Server extends Push
 {
-    /**< @type integer Main loop sleep time in micro seconds. */
+    /** @var int Main loop sleep time in micro seconds. */
     protected const MAIN_LOOP_USLEEP = 200000;
 
-    /**< @type integer Shared memory size in bytes useful to store message queues. */
+    /** @var int Shared memory size in bytes useful to store message queues. */
     protected const SHM_SIZE = 524288;
 
-    /**< @type integer Message queue start identifier for messages.
+    /** @var int Message queue start identifier for messages.
      * For every process 1 is added to this number. */
     protected const SHM_MESSAGES_QUEUE_KEY_START = 1000;
 
-    /**< @type integer Message queue identifier for not delivered messages. */
+    /** @var int Message queue identifier for not delivered messages. */
     protected const SHM_ERROR_MESSAGES_QUEUE_KEY = 999;
 
-    /**< @type integer The number of processes to start. */
+    /** @var int The number of processes to start. */
     protected $processes = 3;
 
-    /**< @type array Array of process PIDs. */
+    /** @var array Array of process PIDs. */
     protected $pids = array();
 
-    /**< @type integer The parent process id. */
+    /** @var int The parent process id. */
     protected $parentPid;
 
-    /**< @type integer Cardinal process number (0, 1, 2, ...). */
+    /** @var int Cardinal process number (0, 1, 2, ...). */
     protected $currentProcess;
 
-    /**< @type integer The number of running processes. */
+    /** @var int The number of running processes. */
     protected $runningProcesses;
 
-    /**< @type resource Shared memory. */
+    /** @var resource Shared memory. */
     protected $shm;
 
-    /**< @type resource Semaphore. */
+    /** @var resource Semaphore. */
     protected $sem;
 
     /**
-     * Constructor.
-     *
-     * @param  $environment @type integer Environment.
-     * @param  $providerCertificateFile @type string Provider certificate file
-     *         with key (Bundled PEM).
+     * @param int $environment Environment.
+     * @param string $providerCertificateFile Provider certificate file with key (Bundled PEM).
      */
     public function __construct($environment, $providerCertificateFile)
     {
@@ -113,7 +110,7 @@ class Server extends Push
      * }
      * @endcode
      *
-     * @return @type boolean True if the server is running.
+     * @return bool True if the server is running.
      */
     public function run()
     {
@@ -136,7 +133,7 @@ class Server extends Push
      * When a child (not the parent) receive a signal of type TERM, QUIT or INT
      * exits from the current process and decreases the current running process number.
      *
-     * @param  $signal @type integer Signal number.
+     * @param int $signal Signal number.
      */
     public function onSignal($signal)
     {
@@ -174,7 +171,7 @@ class Server extends Push
     /**
      * Set the total processes to start, default is 3.
      *
-     * @param  $processes @type integer Processes to start up.
+     * @param int $processes Processes to start up.
      */
     public function setProcesses($processes)
     {
@@ -223,7 +220,7 @@ class Server extends Push
      * Messages are added to the queues in a round-robin fashion starting from the
      * first process to the last.
      *
-     * @param  $message @type Message The message.
+     * @param Message $message The message.
      */
     public function add(Message $message)
     {
@@ -279,8 +276,8 @@ class Server extends Push
      * Returns messages not delivered to the end user because one (or more) error
      * occurred.
      *
-     * @param  $empty @type boolean @optional Empty message container.
-     * @return @type array Array of messages not delivered because one or more errors
+     * @param bool $empty @optional Empty message container.
+     * @return array Array of messages not delivered because one or more errors
      *         occurred.
      */
     public function getErrors($empty = true)
@@ -339,10 +336,10 @@ class Server extends Push
     /**
      * Returns the queue from the shared memory.
      *
-     * @param  $queueKey @type integer The key of the queue stored in the shared
+     * @param int $queueKey The key of the queue stored in the shared
      *         memory.
-     * @param  $process @type integer @optional The process cardinal number.
-     * @return @type array Array of messages from the queue.
+     * @param int $process @optional The process cardinal number.
+     * @return array Array of messages from the queue.
      */
     protected function getSHMQueue($queueKey, $process = 0)
     {
@@ -355,12 +352,12 @@ class Server extends Push
     /**
      * Store the queue into the shared memory.
      *
-     * @param  $queueKey @type integer The key of the queue to store in the shared
+     * @param int $queueKey The key of the queue to store in the shared
      *         memory.
-     * @param  $process @type integer @optional The process cardinal number.
-     * @param  $queue @type array @optional The queue to store into shared memory.
+     * @param int $process @optional The process cardinal number.
+     * @param array $queue @optional The queue to store into shared memory.
      *         The default value is an empty array, useful to empty the queue.
-     * @return @type boolean True on success, false otherwise.
+     * @return bool True on success, false otherwise.
      */
     protected function setSHMQueue($queueKey, $process = 0, $queue = array())
     {

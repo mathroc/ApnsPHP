@@ -73,7 +73,7 @@ class Message
     /** @var mixed Custom properties container. */
     protected $customProperties;
 
-    /** @var integer That message will expire in 604800 seconds (86400 * 7, 7 days) if not successful delivered. */
+    /** @var int That message will expire in 604800 seconds (86400 * 7, 7 days) if not successful delivered. */
     protected $expiryValue = 604800;
 
     /** @var mixed Custom message identifier. */
@@ -91,7 +91,7 @@ class Message
     private ?string $pushType = null;
 
     /**
-     * @param  $deviceToken @type string @optional Recipients device token.
+     * @param string $deviceToken @optional Recipients device token.
      */
     public function __construct($deviceToken = null)
     {
@@ -103,7 +103,7 @@ class Message
     /**
      * Add a recipient device token.
      *
-     * @param  $deviceToken @type string Recipients device token.
+     * @param string $deviceToken Recipients device token.
      */
     public function addRecipient($deviceToken)
     {
@@ -118,8 +118,8 @@ class Message
     /**
      * Get a recipient.
      *
-     * @param  $recipient @type integer @optional Recipient number to return.
-     * @return @type string The recipient token at index $recipient.
+     * @param int $recipient @optional Recipient number to return.
+     * @return string The recipient token at index $recipient.
      */
     public function getRecipient($recipient = 0)
     {
@@ -134,7 +134,7 @@ class Message
     /**
      * Get an object for a single recipient.
      *
-     * @param  $recipient @type integer @optional Recipient number to return.
+     * @param int $recipient @optional Recipient number to return.
      * @return Message The message configured with the token at index $recipient.
      */
     public function selfForRecipient($recipient = 0)
@@ -155,7 +155,7 @@ class Message
     /**
      * Get the number of recipients.
      *
-     * @return @type integer Recipient's number.
+     * @return int Recipient's number.
      */
     public function getRecipientsNumber()
     {
@@ -165,7 +165,7 @@ class Message
     /**
      * Get all recipients.
      *
-     * @return @type array Array of all recipients device token.
+     * @return array Array of all recipients device token.
      */
     public function getRecipients()
     {
@@ -175,7 +175,7 @@ class Message
     /**
      * Set the alert message to display to the user.
      *
-     * @param  $text @type string An alert message to display to the user.
+     * @param string $text An alert message to display to the user.
      */
     public function setText($text)
     {
@@ -185,7 +185,7 @@ class Message
     /**
      * Get the alert message to display to the user.
      *
-     * @return @type string The alert message to display to the user.
+     * @return string The alert message to display to the user.
      */
     public function getText()
     {
@@ -196,7 +196,7 @@ class Message
      * Set the alert title to display to the user.  This will be BOLD text on the top of the push message. If
      * this title is not set - only the text will be used in the alert without bold text.
      *
-     * @param  $title @type string An alert title to display to the user.
+     * @param string $title An alert title to display to the user.
      */
     public function setTitle($title)
     {
@@ -206,7 +206,7 @@ class Message
     /**
      * Get the alert title to display to the user.
      *
-     * @return @type string The alert title to display to the user.
+     * @return string The alert title to display to the user.
      */
     public function getTitle()
     {
@@ -216,7 +216,7 @@ class Message
     /**
      * Set the number to badge the application icon with.
      *
-     * @param  $badge @type integer A number to badge the application icon with.
+     * @param int $badge A number to badge the application icon with.
      */
     public function setBadge($badge)
     {
@@ -231,7 +231,7 @@ class Message
     /**
      * Get the number to badge the application icon with.
      *
-     * @return @type integer The number to badge the application icon with.
+     * @return int The number to badge the application icon with.
      */
     public function getBadge()
     {
@@ -241,7 +241,7 @@ class Message
     /**
      * Set the sound to play.
      *
-     * @param  $sound @type string @optional A sound to play ('default sound' is
+     * @param string $sound @optional A sound to play ('default sound' is
      *         the default sound).
      */
     public function setSound($sound = 'default')
@@ -252,7 +252,7 @@ class Message
     /**
      * Get the sound to play.
      *
-     * @return @type string The sound to play.
+     * @return string The sound to play.
      */
     public function getSound()
     {
@@ -262,7 +262,7 @@ class Message
     /**
      * Set the category of notification
      *
-     * @param  $category @type string @optional A category for ios8 notification actions.
+     * @param string $category @optional A category for ios8 notification actions.
      */
     public function setCategory($category = '')
     {
@@ -272,7 +272,7 @@ class Message
     /**
      * Get the category of notification
      *
-     * @return @type string The notification category
+     * @return string The notification category
      */
     public function getCategory()
     {
@@ -282,7 +282,7 @@ class Message
     /**
     * Set the thread-id of notification
     *
-    * @param  $threadId @type string @optional A thread-id for iOS 12 notification group.
+    * @param string $threadId @optional A thread-id for iOS 12 notification group.
     */
     public function setThreadId($threadId = '')
     {
@@ -292,7 +292,7 @@ class Message
     /**
     * Get the thread-id of notification
     *
-    * @return @type string The notification thread-id
+    * @return string The notification thread-id
     */
     public function getThreadId()
     {
@@ -303,7 +303,7 @@ class Message
      * Initiates the Newsstand background download.
      * @see http://tinyurl.com/ApplePushNotificationNewsstand
      *
-     * @param  $contentAvailable @type boolean True to initiates the Newsstand background download.
+     * @param bool $contentAvailable True to initiates the Newsstand background download.
      */
     public function setContentAvailable($contentAvailable = true)
     {
@@ -318,7 +318,7 @@ class Message
     /**
      * Get if should initiates the Newsstand background download.
      *
-     * @return @type boolean Initiates the Newsstand background download property.
+     * @return bool Initiates the Newsstand background download property.
      */
     public function getContentAvailable()
     {
@@ -329,7 +329,7 @@ class Message
      * Set the mutable-content key for Notification Service Extensions on iOS10
      * @see https://developer.apple.com/reference/usernotifications/unnotificationserviceextension
      *
-     * @param  $mutableContent @type boolean True to enable flag
+     * @param bool $mutableContent True to enable flag
      */
     public function setMutableContent($mutableContent = true)
     {
@@ -344,7 +344,7 @@ class Message
     /**
      * Get if should set the mutable-content ios10 rich notifications flag
      *
-     * @return @type boolean mutable-content ios10 rich notifications flag
+     * @return bool mutable-content ios10 rich notifications flag
      */
     public function getMutableContent()
     {
@@ -354,8 +354,8 @@ class Message
     /**
      * Set a custom property.
      *
-     * @param  $name @type string Custom property name.
-     * @param  $value @type mixed Custom property value.
+     * @param string $name Custom property name.
+     * @param mixed $value Custom property value.
      */
     public function setCustomProperty($name, $value)
     {
@@ -372,7 +372,7 @@ class Message
      *
      * @deprecated Use getCustomPropertyNames() instead.
      *
-     * @return @type string The first custom property name.
+     * @return string The first custom property name.
      */
     public function getCustomPropertyName()
     {
@@ -388,7 +388,7 @@ class Message
      *
      * @deprecated Use getCustomProperty() instead.
      *
-     * @return @type mixed The first custom property value.
+     * @return mixed The first custom property value.
      */
     public function getCustomPropertyValue()
     {
@@ -402,7 +402,7 @@ class Message
     /**
      * Get all custom properties names.
      *
-     * @return @type array All properties names.
+     * @return array All properties names.
      */
     public function getCustomPropertyNames()
     {
@@ -415,8 +415,8 @@ class Message
     /**
      * Get the custom property value.
      *
-     * @param  $name @type string Custom property name.
-     * @return @type string The custom property value.
+     * @param string $name Custom property name.
+     * @return string The custom property value.
      */
     public function getCustomProperty($name)
     {
@@ -431,7 +431,7 @@ class Message
     /**
      * Set the auto-adjust long payload value.
      *
-     * @param  $autoAdjust @type boolean If true a long payload is shorted cutting
+     * @param bool $autoAdjust If true a long payload is shorted cutting
      *         long text value.
      */
     public function setAutoAdjustLongPayload($autoAdjust)
@@ -442,7 +442,7 @@ class Message
     /**
      * Get the auto-adjust long payload value.
      *
-     * @return @type boolean The auto-adjust long payload value.
+     * @return bool The auto-adjust long payload value.
      */
     public function getAutoAdjustLongPayload()
     {
@@ -453,7 +453,7 @@ class Message
      * PHP Magic Method. When an object is "converted" to a string, JSON-encoded
      * payload is returned.
      *
-     * @return @type string JSON-encoded payload.
+     * @return string JSON-encoded payload.
      */
     public function __toString()
     {
@@ -470,7 +470,7 @@ class Message
      * For more information on push titles see:
      * https://stackoverflow.com/questions/40647061/bold-or-other-formatting-in-ios-push-notification
      *
-     * @return @type array The payload dictionary.
+     * @return array The payload dictionary.
      */
     protected function getPayloadDictionary()
     {
@@ -566,7 +566,7 @@ class Message
     /**
      * Set the expiry value.
      *
-     * @param  $expiryValue @type integer This message will expire in N seconds
+     * @param int $expiryValue This message will expire in N seconds
      *         if not successful delivered.
      */
     public function setExpiry($expiryValue)
@@ -582,7 +582,7 @@ class Message
     /**
      * Get the expiry value.
      *
-     * @return @type integer The expire message value (in seconds).
+     * @return int The expire message value (in seconds).
      */
     public function getExpiry()
     {
@@ -599,7 +599,7 @@ class Message
      * This custom identifier, if present, is also used in all status message by
      * the ApnsPHPPush class.
      *
-     * @param  $customIdentifier @type mixed The custom message identifier.
+     * @param mixed $customIdentifier The custom message identifier.
      */
     public function setCustomIdentifier($customIdentifier)
     {
@@ -612,7 +612,7 @@ class Message
     /**
      * Get the custom message identifier.
      *
-     * @return @type mixed The custom message identifier.
+     * @return mixed The custom message identifier.
      */
     public function getCustomIdentifier()
     {
@@ -623,7 +623,7 @@ class Message
      * Set the topic of the remote notification, which is typically
      * the bundle ID for your app.
      *
-     * @param  $topic @type string The topic of the remote notification.
+     * @param string $topic The topic of the remote notification.
      */
     public function setTopic($topic)
     {
@@ -633,7 +633,7 @@ class Message
     /**
      * Get the topic of the remote notification.
      *
-     * @return @type string The topic of the remote notification.
+     * @return string The topic of the remote notification.
      */
     public function getTopic()
     {

@@ -30,20 +30,20 @@ use ApnsPHP\Push\Exception;
  */
 class Push extends SharedConfig
 {
-    /** @var integer Payload command. */
+    /** @var int Payload command. */
     protected const COMMAND_PUSH = 1;
 
-    /** @var integer Error-response packet size. */
+    /** @var int Error-response packet size. */
     protected const ERROR_RESPONSE_SIZE = 6;
 
-    /** @var integer Error-response command code. */
+    /** @var int Error-response command code. */
     protected const ERROR_RESPONSE_COMMAND = 8;
 
-    /** @var integer Status code for internal error (not Apple). */
+    /** @var int Status code for internal error (not Apple). */
     protected const STATUS_CODE_INTERNAL_ERROR = 999;
 
     /**
-     * @var array Error-response messages.
+     * @var array<int, string> Error-response messages.
      * @deprecated
      */
     protected $errorResponseMessages = array(
@@ -59,8 +59,8 @@ class Push extends SharedConfig
         self::STATUS_CODE_INTERNAL_ERROR => 'Internal error'
     );
 
-    /** @var array HTTP/2 Error-response messages. */
     protected $HTTPErrorResponseMessages = array(
+    /** @var array<int, string> HTTP/2 Error-response messages. */
         200 => 'Success',
         400 => 'Bad request',
         403 => 'There was an error with the certificate',
@@ -76,23 +76,23 @@ class Push extends SharedConfig
     /** @var int Send retry times. */
     protected $sendRetryTimes = 3;
 
-    /** @var array Service URLs environments. */
     protected $serviceURLs = array(
+    /** @var string[] Service URLs environments. */
         'tls://gateway.push.apple.com:2195', // Production environment
         'tls://gateway.sandbox.push.apple.com:2195' // Sandbox environment
     );
 
-    /** @var array HTTP/2 Service URLs environments. */
     protected $HTTPServiceURLs = array(
+    /** @var string[] HTTP/2 Service URLs environments. */
         'https://api.push.apple.com:443', // Production environment
         'https://api.development.push.apple.com:443' // Sandbox environment
     );
 
-    /** @var array Message queue. */
     protected $messageQueue = array();
+    /** @var array<int, array> Message queue. */
 
-    /** @var array Error container. */
     protected $errors = array();
+    /** @var array<int, array> Error container. */
 
     /**
      * Set the send retry times value.
@@ -100,7 +100,7 @@ class Push extends SharedConfig
      * If the client is unable to send a payload to to the server retries at least
      * for this value. The default send retry times is 3.
      *
-     * @param  $retryTimes @type integer Send retry times.
+     * @param int $retryTimes Send retry times.
      */
     public function setSendRetryTimes($retryTimes)
     {
@@ -110,7 +110,7 @@ class Push extends SharedConfig
     /**
      * Get the send retry time value.
      *
-     * @return integer Send retry times.
+     * @return int Send retry times.
      */
     public function getSendRetryTimes()
     {
@@ -120,7 +120,7 @@ class Push extends SharedConfig
     /**
      * Adds a message to the message queue.
      *
-     * @param  $message @type ApnsPHPMessage The message.
+     * @param ApnsPHPMessage $message The message.
      */
     public function add(Message $message)
     {
@@ -280,8 +280,8 @@ class Push extends SharedConfig
     /**
      * Send a message using the HTTP/2 API protocol.
      *
-     * @param  $message @type ApnsPHPMessage The message.
-     * @param  $reply @type string The reply message.
+     * @param ApnsPHPMessage $message The message.
+     * @param string $reply The reply message.
      * @return bool success of API call
      */
     private function httpSend(Message $message, &$reply)
@@ -334,7 +334,7 @@ class Push extends SharedConfig
      * from the message queue and inserted in the Errors container. Use the getErrors()
      * method to retrive messages with delivery error(s).
      *
-     * @param  $empty @type boolean @optional Empty message queue.
+     * @param bool $empty @optional Empty message queue.
      * @return array Array of messages left on the queue.
      */
     public function getMessageQueue($empty = true)
@@ -350,7 +350,7 @@ class Push extends SharedConfig
      * Returns messages not delivered to the end user because one (or more) error
      * occurred.
      *
-     * @param  $empty @type boolean @optional Empty message container.
+     * @param bool $empty @optional Empty message container.
      * @return array Array of messages not delivered because one or more errors
      *         occurred.
      */
@@ -368,10 +368,10 @@ class Push extends SharedConfig
      *
      * @see http://tinyurl.com/ApplePushNotificationBinary
      *
-     * @param  $deviceToken @type string The device token.
-     * @param  $payload @type string The JSON-encoded payload.
-     * @param  $messageId @type integer @optional Message unique ID.
-     * @param  $expire @type integer @optional Seconds, starting from now, that
+     * @param string $deviceToken The device token.
+     * @param string $payload The JSON-encoded payload.
+     * @param int $messageId @optional Message unique ID.
+     * @param int $expire @optional Seconds, starting from now, that
      *         identifies when the notification is no longer valid and can be discarded.
      *         Pass a negative value (-1 for example) to request that APNs not store
      *         the notification at all. Default is 86400 * 7, 7 days.
@@ -399,7 +399,7 @@ class Push extends SharedConfig
     /**
      * Parses the error message.
      *
-     * @param  $errorMessage @type string The Error Message.
+     * @param string $errorMessage The Error Message.
      * @return array Array with command, statusCode and identifier keys.
      */
     protected function parseErrorMessage($errorMessage)
@@ -441,7 +441,7 @@ class Push extends SharedConfig
     /**
      * Checks for error message and deletes messages successfully sent from message queue.
      *
-     * @param  $errorMessages @type array @optional The error message. It will anyway
+     * @param array $errorMessages @optional The error message. It will anyway
      *         always be read from the main stream. The latest successful message
      *         sent is the lowest between this error message and the message that
      *         was read from the main stream.
@@ -487,8 +487,8 @@ class Push extends SharedConfig
     /**
      * Remove a message from the message queue.
      *
-     * @param  $messageId @type integer The Message ID.
-     * @param  $error @type boolean @optional Insert the message in the Error container.
+     * @param int $messageId The Message ID.
+     * @param bool $error @optional Insert the message in the Error container.
      */
     protected function removeMessageFromQueue($messageId, $error = false)
     {

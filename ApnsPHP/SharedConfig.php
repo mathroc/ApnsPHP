@@ -126,10 +126,10 @@ abstract class SharedConfig
     protected $hSocket;
 
     /**
-     * @param  $environment @type integer Environment.
-     * @param  $providerCertificateFile @type string Provider certificate file
+     * @param int $environment Environment.
+     * @param string $providerCertificateFile Provider certificate file
      *         with key (Bundled PEM).
-     * @param  $protocol @type integer Protocol.
+     * @param int $protocol Protocol.
      */
     public function __construct($environment, $providerCertificateFile, $protocol = self::PROTOCOL_BINARY)
     {
@@ -170,7 +170,7 @@ abstract class SharedConfig
      * To set a custom logger you have to implement LoggerInterface
      * and use setLogger, otherwise standard logger will be used.
      *
-     * @param  $logger @type LoggerInterface Logger instance.
+     * @param LoggerInterface $logger Logger instance.
      * @see \Psr\Log\LoggerInterface
      * @see EmbeddedLogger
      *
@@ -241,7 +241,7 @@ abstract class SharedConfig
      * @see http://www.entrust.net/
      * @see https://www.entrust.net/downloads/root_index.cfm
      *
-     * @param  $rootCertificationAuthorityFile @type string Root Certification
+     * @param string $rootCertificationAuthorityFile Root Certification
      *         Authority file.
      */
     public function setRootCertificationAuthority($rootCertificationAuthorityFile)
@@ -257,7 +257,7 @@ abstract class SharedConfig
     /**
      * Get the Root Certification Authority file path.
      *
-     * @return @type string Current Root Certification Authority file path.
+     * @return string Current Root Certification Authority file path.
      */
     public function getCertificateAuthority()
     {
@@ -271,7 +271,7 @@ abstract class SharedConfig
      * time interval. To speed up the sending operations, use Zero
      * as parameter but some messages may be lost.
      *
-     * @param  $writeInterval @type integer Write interval in micro seconds.
+     * @param int $writeInterval Write interval in micro seconds.
      */
     public function setWriteInterval($writeInterval)
     {
@@ -281,7 +281,7 @@ abstract class SharedConfig
     /**
      * Get the write interval.
      *
-     * @return @type integer Write interval in micro seconds.
+     * @return int Write interval in micro seconds.
      */
     public function getWriteInterval()
     {
@@ -294,7 +294,7 @@ abstract class SharedConfig
      * The default connection timeout is the PHP internal value "default_socket_timeout".
      * @see http://php.net/manual/en/filesystem.configuration.php
      *
-     * @param  $timeout @type integer Connection timeout in seconds.
+     * @param int $timeout Connection timeout in seconds.
      */
     public function setConnectTimeout($timeout)
     {
@@ -304,7 +304,7 @@ abstract class SharedConfig
     /**
      * Get the connection timeout.
      *
-     * @return @type integer Connection timeout in seconds.
+     * @return int Connection timeout in seconds.
      */
     public function getConnectTimeout()
     {
@@ -317,7 +317,7 @@ abstract class SharedConfig
      * If the client is unable to connect to the server retries at least for this
      * value. The default connect retry times is 3.
      *
-     * @param  $retryTimes @type integer Connect retry times.
+     * @param int $retryTimes Connect retry times.
      */
     public function setConnectRetryTimes($retryTimes)
     {
@@ -327,7 +327,7 @@ abstract class SharedConfig
     /**
      * Get the connect retry time value.
      *
-     * @return @type integer Connect retry times.
+     * @return int Connect retry times.
      */
     public function getConnectRetryTimes()
     {
@@ -340,7 +340,7 @@ abstract class SharedConfig
      * If the client is unable to connect to the server retries at least for ConnectRetryTimes
      * and waits for this value between each attempts.
      *
-     * @param  $retryInterval @type integer Connect retry interval in micro seconds.
+     * @param int $retryInterval Connect retry interval in micro seconds.
      *@see setConnectRetryTimes
      *
      */
@@ -352,7 +352,7 @@ abstract class SharedConfig
     /**
      * Get the connect retry interval.
      *
-     * @return @type integer Connect retry interval in micro seconds.
+     * @return int Connect retry interval in micro seconds.
      */
     public function getConnectRetryInterval()
     {
@@ -374,7 +374,7 @@ abstract class SharedConfig
      *
      * @see http://php.net/stream_select
      *
-     * @param  $selectTimeout @type integer Socket select timeout in micro seconds.
+     * @param int $selectTimeout Socket select timeout in micro seconds.
      */
     public function setSocketSelectTimeout($selectTimeout)
     {
@@ -384,7 +384,7 @@ abstract class SharedConfig
     /**
      * Get the TCP socket select timeout.
      *
-     * @return @type integer Socket select timeout in micro seconds.
+     * @return int Socket select timeout in micro seconds.
      */
     public function getSocketSelectTimeout()
     {
@@ -427,7 +427,7 @@ abstract class SharedConfig
     /**
      * Disconnects from Apple Push Notifications service server.
      *
-     * @return @type boolean True if successful disconnected.
+     * @return boolean True if successful disconnected.
      */
     public function disconnect()
     {
@@ -447,7 +447,7 @@ abstract class SharedConfig
      * Initializes cURL, the HTTP/2 backend used to connect to Apple Push Notification
      * service server via HTTP/2 API protocol.
      *
-     * @return @type boolean True if successful initialized.
+     * @return boolean True if successful initialized.
      */
     protected function httpInit()
     {
@@ -513,7 +513,7 @@ abstract class SharedConfig
     /**
      * Connects to Apple Push Notification service server via binary protocol.
      *
-     * @return @type boolean True if successful connected.
+     * @return boolean True if successful connected.
      * @deprecated
      */
     protected function binaryConnect($URL)

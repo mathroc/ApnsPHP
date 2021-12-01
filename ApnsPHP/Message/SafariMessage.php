@@ -23,7 +23,7 @@ class SafariMessage extends Message
     /**
      * Set the title of the notification.
      *
-     * @param  $title @type string The title of the notification
+     * @param string $title The title of the notification
      */
     public function setTitle($title)
     {
@@ -33,7 +33,7 @@ class SafariMessage extends Message
     /**
      * Get the title of the notification.
      *
-     * @return @type string The title of the notification
+     * @return string The title of the notification
      */
     public function getTitle()
     {
@@ -43,7 +43,7 @@ class SafariMessage extends Message
     /**
      * Set the label of the action button, if the user sets the notifications to appear as alerts.
      *
-     * @param  $action @type string The label of the action button
+     * @param string $action The label of the action button
      */
     public function setAction($action)
     {
@@ -53,7 +53,7 @@ class SafariMessage extends Message
     /**
      * Get the label of the action button, if the user sets the notifications to appear as alerts.
      *
-     * @return @type string The label of the action button
+     * @return string The label of the action button
      */
     public function getAction()
     {
@@ -64,7 +64,7 @@ class SafariMessage extends Message
      * Set the variable string values to appear in place of the format specifiers
      * in urlFormatString.
      *
-     * @param  $urlArgs @type array The variable string values.
+     * @param array $urlArgs The variable string values.
      */
     public function setUrlArgs($urlArgs)
     {
@@ -75,7 +75,7 @@ class SafariMessage extends Message
      * Get the variable string values to appear in place of the format specifiers
      * in urlFormatString.
      *
-     * @return @type string The variable string values.
+     * @return string The variable string values.
      */
     public function getUrlArgs()
     {
@@ -85,7 +85,7 @@ class SafariMessage extends Message
     /**
      * Get the payload dictionary.
      *
-     * @return @type array The payload dictionary.
+     * @return array The payload dictionary.
      */
     protected function getPayloadDictionary()
     {

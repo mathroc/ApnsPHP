@@ -35,14 +35,14 @@ namespace ApnsPHP;
  */
 class Feedback extends SharedConfig
 {
-    /** @var integer Timestamp binary size in bytes. */
+    /** @var int Timestamp binary size in bytes. */
     protected const TIME_BINARY_SIZE = 4;
 
-    /** @var integer Token length binary size in bytes. */
+    /** @var int Token length binary size in bytes. */
     protected const TOKEN_LENGTH_BINARY_SIZE = 2;
 
-    /** @var array Feedback URLs environments. */
     protected $serviceURLs = array(
+    /** @var string[] Feedback URLs environments. */
         'tls://feedback.push.apple.com:2196', // Production environment
         'tls://feedback.sandbox.push.apple.com:2196' // Sandbox environment
     );
@@ -63,7 +63,7 @@ class Feedback extends SharedConfig
      * @li @c tokenLength The length of the device token (usually 32 bytes).
      * @li @c deviceToken The device token.
      *
-     * @return @type array Array of feedback tuples (array).
+     * @return array Array of feedback tuples (array).
      */
     public function receive()
     {
@@ -112,8 +112,8 @@ class Feedback extends SharedConfig
     /**
      * Parses binary tuples.
      *
-     * @param  $binaryTuple @type string A binary tuple to parse.
-     * @return @type array Array with timestamp, tokenLength and deviceToken keys.
+     * @param string $binaryTuple A binary tuple to parse.
+     * @return array Array with timestamp, tokenLength and deviceToken keys.
      * @deprecated
      */
     protected function parseBinaryTuple($binaryTuple)
