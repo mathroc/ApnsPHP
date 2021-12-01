@@ -30,8 +30,9 @@ require_once 'vendor/autoload.php';
 
 // Instantiate a new ApnsPHP_Push object
 $push = new \ApnsPHP\Push(
-	\ApnsPHP\SharedConfig::ENVIRONMENT_SANDBOX,
-	'server_certificates_bundle_sandbox.pem'
+    \ApnsPHP\SharedConfig::ENVIRONMENT_SANDBOX,
+    'server_certificates_bundle_sandbox.pem',
+    \ApnsPHP\SharedConfig::PROTOCOL_HTTP,
 );
 
 // Set the Provider Certificate passphrase
@@ -60,13 +61,13 @@ $message->setText('Hello APNs-enabled device!');
 $message->setSound();
 
 // Set a custom property
-$message->setCustomProperty('acme2', array('bang', 'whiz'));
+$message->setCustomProperty('acme2', ['bang', 'whiz']);
 
 // Set another custom property
-$message->setCustomProperty('acme3', array('bing', 'bong'));
+$message->setCustomProperty('acme3', ['bing', 'bong']);
 
 // Set the expiry value to 30 seconds
-$message->setExpiry(30);
+$message->setExpiry(10);
 
 // Add the message to the message queue
 $push->add($message);
