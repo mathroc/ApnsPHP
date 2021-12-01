@@ -33,7 +33,7 @@ use ApnsPHP\Message\Exception;
 class Message
 {
     /**< @type integer The maximum size allowed for a notification payload. */
-    protected const PAYLOAD_MAXIMUM_SIZE = 2048;
+    protected const PAYLOAD_MAXIMUM_SIZE = 4096;
 
     /**< @type string The Apple-reserved aps namespace. */
     protected const APPLE_RESERVED_NAMESPACE = 'aps';
