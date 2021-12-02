@@ -122,7 +122,7 @@ abstract class SharedConfig
     /** @var \Psr\Log\LoggerInterface Logger. */
     protected $logger;
 
-    /** @var resource SSL Socket. */
+    /** @var \CurlHandle|resource|false SSL Socket. */
     protected $hSocket;
 
     /**
@@ -431,15 +431,17 @@ abstract class SharedConfig
      */
     public function disconnect()
     {
-        if (is_resource($this->hSocket)) {
+        if ($this->hSocket !== false || is_resource($this->hSocket)) {
             $this->logger()->info('Disconnected.');
             if ($this->protocol === self::PROTOCOL_HTTP) {
                 curl_close($this->hSocket);
+                unset($this->hSocket); // curl_close($handle) has not effect with PHP 8
                 return true;
             } else {
                 return fclose($this->hSocket);
             }
         }
+
         return false;
     }
 

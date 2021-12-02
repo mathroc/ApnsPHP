@@ -424,6 +424,10 @@ class Push extends SharedConfig
      */
     protected function readErrorMessage()
     {
+        if ($this->protocol === self::PROTOCOL_HTTP) {
+            return null;
+        }
+
         $errorMessage = @fread($this->hSocket, self::ERROR_RESPONSE_SIZE);
         if ($errorMessage === false || strlen($errorMessage) != self::ERROR_RESPONSE_SIZE) {
             return;
