@@ -418,12 +418,16 @@ class Push extends SharedConfig
     /**
      * Reads an error message (if present) from the main stream.
      * If the error message is present and valid the error message is returned,
-     * otherwhise null is returned.
+     * otherwise null is returned.
      *
      * @return array|null Return the error message array.
      */
     protected function readErrorMessage()
     {
+        if ($this->protocol === self::PROTOCOL_HTTP) {
+            return null;
+        }
+
         $errorMessage = @fread($this->hSocket, self::ERROR_RESPONSE_SIZE);
         if ($errorMessage === false || strlen($errorMessage) != self::ERROR_RESPONSE_SIZE) {
             return;
@@ -453,7 +457,7 @@ class Push extends SharedConfig
      *         always be read from the main stream. The latest successful message
      *         sent is the lowest between this error message and the message that
      *         was read from the main stream.
-     *         @return bool True if an error was received.
+     * @return bool True if an error was received.
      * @see readErrorMessage()
      */
     protected function updateQueue($errorMessages = null)
@@ -461,7 +465,9 @@ class Push extends SharedConfig
         $streamErrorMessage = $this->readErrorMessage();
         if (!isset($errorMessages) && !isset($streamErrorMessage)) {
             return false;
-        } elseif (isset($errorMessages, $streamErrorMessage)) {
+        }
+
+        if (isset($errorMessages, $streamErrorMessage)) {
             if ($streamErrorMessage['identifier'] <= $errorMessages['identifier']) {
                 $errorMessages = $streamErrorMessage;
                 unset($streamErrorMessage);

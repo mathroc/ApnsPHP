@@ -72,12 +72,12 @@ abstract class SharedConfig
     public const SOCKET_SELECT_TIMEOUT = 1000000;
 
     /**
-     * @var array Container for service URLs environments.
+     * @var string[] Container for service URLs environments.
      * @deprecated
      */
     protected $serviceURLs = [];
 
-    /** @var array Container for HTTP/2 service URLs environments. */
+    /** @var string[] Container for HTTP/2 service URLs environments. */
     protected $HTTPServiceURLs = [];
 
     /** @var int Active environment. */
@@ -122,7 +122,7 @@ abstract class SharedConfig
     /** @var \Psr\Log\LoggerInterface Logger. */
     protected $logger;
 
-    /** @var resource SSL Socket. */
+    /** @var \CurlHandle|resource|false SSL Socket. */
     protected $hSocket;
 
     /**
@@ -431,15 +431,17 @@ abstract class SharedConfig
      */
     public function disconnect()
     {
-        if (is_resource($this->hSocket)) {
+        if ($this->hSocket !== false || is_resource($this->hSocket)) {
             $this->logger()->info('Disconnected.');
             if ($this->protocol === self::PROTOCOL_HTTP) {
                 curl_close($this->hSocket);
+                unset($this->hSocket); // curl_close($handle) has not effect with PHP 8
                 return true;
             } else {
                 return fclose($this->hSocket);
             }
         }
+
         return false;
     }
 
@@ -455,15 +457,13 @@ abstract class SharedConfig
 
         $this->hSocket = curl_init();
         if (!$this->hSocket) {
-            throw new Exception(
-                "Unable to initialize HTTP/2 backend."
-            );
+            throw new Exception("Unable to initialize HTTP/2 backend.");
         }
 
         if (!defined('CURL_HTTP_VERSION_2_0')) {
             define('CURL_HTTP_VERSION_2_0', 3);
         }
-        $curlOpts = array(
+        $curlOpts = [
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERAGENT => 'ApnsPHP',
@@ -471,7 +471,7 @@ abstract class SharedConfig
             CURLOPT_TIMEOUT => 30,
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_VERBOSE => false
-        );
+        ];
 
         if (strpos($this->providerCertFile, '.pem') !== false) {
             $this->logger()->info("Initializing HTTP/2 backend with certificate.");
@@ -486,9 +486,7 @@ abstract class SharedConfig
         }
 
         if (!curl_setopt_array($this->hSocket, $curlOpts)) {
-            throw new Exception(
-                "Unable to initialize HTTP/2 backend."
-            );
+            throw new Exception("Unable to initialize HTTP/2 backend.");
         }
 
         $this->logger()->info("Initialized HTTP/2 backend.");
@@ -502,6 +500,7 @@ abstract class SharedConfig
     protected function getJsonWebToken()
     {
         $key = InMemory::file($this->providerCertFile);
+
         return Configuration::forUnsecuredSigner()->builder()
             ->issuedBy($this->providerTeamId)
             ->issuedAt(new DateTimeImmutable())
@@ -566,6 +565,8 @@ abstract class SharedConfig
 
     /**
      * Return the Logger (with lazy loading)
+     *
+     * @return LoggerInterface
      */
     protected function logger()
     {
