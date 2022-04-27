@@ -177,24 +177,13 @@ abstract class SharedConfig
      */
     public function setLogger(LoggerInterface $logger)
     {
-        if (!is_object($logger)) {
-            throw new Exception(
-                "The logger should be an instance of 'Psr\Log\LoggerInterface'"
-            );
-        }
-        if (!($logger instanceof LoggerInterface)) {
-            throw new Exception(
-                "Unable to use an instance of '" . get_class($logger) . "' as logger: " .
-                "a logger must implements 'Psr\Log\LoggerInterface'."
-            );
-        }
         $this->logger = $logger;
     }
 
     /**
      * Get the Logger instance.
      *
-     * @return @type \Psr\Log\LoggerInterface Current Logger instance.
+     * @return \Psr\Log\LoggerInterface Current Logger instance.
      */
     public function getLogger()
     {
