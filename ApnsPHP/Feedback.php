@@ -47,7 +47,7 @@ class Feedback extends SharedConfig
         'tls://feedback.sandbox.push.apple.com:2196' // Sandbox environment
     ];
 
-    /** @var array Feedback container. */
+    /** @var array[] Feedback container. */
     protected $feedback;
 
     /**
@@ -63,7 +63,7 @@ class Feedback extends SharedConfig
      * @li @c tokenLength The length of the device token (usually 32 bytes).
      * @li @c deviceToken The device token.
      *
-     * @return array Array of feedback tuples (array).
+     * @return array[] Array of feedback tuples (array).
      */
     public function receive()
     {

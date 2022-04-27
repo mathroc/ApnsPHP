@@ -44,30 +44,30 @@ class Message
     /** @var array Recipients device tokens. */
     protected $deviceTokens = [];
 
-    /** @var string Alert message to display to the user. */
+    /** @var string|null Alert message to display to the user. */
     protected $text;
 
-    /** @var string Alert title to display to the user. */
+    /** @var string|null Alert title to display to the user. */
     protected $title;
 
-    /** @var int Number to badge the application icon with. */
+    /** @var int|null Number to badge the application icon with. */
     protected $badge;
 
-    /** @var string Sound to play. */
+    /** @var string|null Sound to play. */
     protected $sound;
 
-    /** @var string notification category. */
+    /** @var string|null notification category. */
     protected $category;
 
-    /** @var bool True to initiates the Newsstand background download.
+    /** @var bool|null True to initiates the Newsstand background download.
      * @see http://tinyurl.com/ApplePushNotificationNewsstand */
     protected $contentAvailable;
 
-    /** @var bool True to activate mutable content key support for ios10 rich notifications.
+    /** @var bool|null True to activate mutable content key support for ios10 rich notifications.
      * @see https://developer.apple.com/reference/usernotifications/unnotificationserviceextension */
     protected $mutableContent;
 
-    /** @var string notification thread-id. */
+    /** @var string|null notification thread-id. */
     protected $threadId;
 
     /** @var mixed Custom properties container. */
@@ -145,7 +145,7 @@ class Message
             );
         }
 
-        //TODO: Replace this with actuall looping over recipients
+        //TODO: Replace this with actual looping over recipients
         $copy = clone $this;
         $copy->deviceTokens = [$this->deviceTokens[$recipient]];
 
@@ -372,7 +372,7 @@ class Message
      *
      * @deprecated Use getCustomPropertyNames() instead.
      *
-     * @return string The first custom property name.
+     * @return string|void The first custom property name.
      */
     public function getCustomPropertyName()
     {
@@ -667,7 +667,7 @@ class Message
     /**
      * Set the collapse ID of the remote notification, notifications with the same collapse ID will show as one.
      *
-     * @param string $collapseId The collapse ID of the remote notification.
+     * @param string|int $collapseId The collapse ID of the remote notification.
      */
     public function setCollapseId($collapseId)
     {
@@ -677,7 +677,7 @@ class Message
     /**
      * Get the collapse ID of the remote notification.
      *
-     * @return int The collapse ID of the remote notification.
+     * @return string|int The collapse ID of the remote notification.
      */
     public function getCollapseId()
     {

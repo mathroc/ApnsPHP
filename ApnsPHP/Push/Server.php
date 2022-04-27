@@ -62,10 +62,10 @@ class Server extends Push
     /** @var int The number of running processes. */
     protected $runningProcesses;
 
-    /** @var resource Shared memory. */
+    /** @var resource|\SysvSharedMemory|false Shared memory. */
     protected $shm;
 
-    /** @var resource Semaphore. */
+    /** @var resource|\SysvSemaphore Semaphore. */
     protected $sem;
 
     /**
@@ -84,12 +84,11 @@ class Server extends Push
             );
         }
 
-        $this->sem = sem_get(mt_rand());
-        if ($this->sem === false) {
-            throw new ServerException(
-                'Unable to get semaphore id'
-            );
+        $sem = sem_get(mt_rand());
+        if ($sem === false) {
+            throw new ServerException('Unable to get semaphore id');
         }
+        $this->sem = $sem;
 
         register_shutdown_function([$this, 'onShutdown']);
 

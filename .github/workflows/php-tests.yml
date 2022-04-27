@@ -34,7 +34,7 @@ jobs:
         run: ./vendor/bin/phpunit --testdox tests
 
       - name: Run PHPStan
-        run: phpstan analyse ApnsPHP -l0
+        run: phpstan analyse ApnsPHP -l 5
 
       - name: Setup sample
         run: |
