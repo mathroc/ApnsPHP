@@ -7,7 +7,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=7.4",
-        "psr/log": "^1 || ^2",
+        "psr/log": "^1 || ^2 || ^3",
         "lib-openssl": "*",
         "lcobucci/jwt": "^4.1.0",
         "ext-curl": "*"
