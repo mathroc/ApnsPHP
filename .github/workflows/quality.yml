@@ -5,10 +5,10 @@ jobs:
   php:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
-    name: "PHP-${{ matrix.php-versions }}: Tests"
+    name: "PHP-${{ matrix.php-versions }}: Quality"
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['8.0', '8.1']
         experimental: [false]
     steps:
       - name: Checkout
@@ -18,21 +18,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          tools: cs2pr
+          tools: cs2pr, phpcs, phpstan
 
       - name: Setup problem matchers for PHP
         run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
 
       - name: Install composer dependencies
-        run: composer i
+        run: composer i --no-dev
 
-      - name: Run test suite
-        run: ./vendor/bin/phpunit --testdox tests
+      - name: Run PHPCS
+        continue-on-error: false
+        run: phpcs -q --report=checkstyle ApnsPHP --standard=PSR12 | cs2pr
 
-      - name: Setup sample
-        run: |
-          touch entrust_root_certification_authority.pem
-          touch server_certificates_bundle_sandbox.pem
-
-      - name: Run sample_push.php
-        run: php sample_push.php | grep "Sending message ID"
+      - name: Run PHPStan
+        run: phpstan analyse ApnsPHP -l 5

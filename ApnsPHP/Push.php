@@ -420,7 +420,7 @@ class Push extends SharedConfig
      * If the error message is present and valid the error message is returned,
      * otherwise null is returned.
      *
-     * @return array|null Return the error message array.
+     * @return array|null|void Return the error message array.
      */
     protected function readErrorMessage()
     {

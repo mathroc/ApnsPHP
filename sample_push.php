@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @file
  * sample_push.php
@@ -68,6 +71,8 @@ $message->setCustomProperty('acme3', ['bing', 'bong']);
 
 // Set the expiry value to 30 seconds
 $message->setExpiry(10);
+
+$message->setCollapseId('42424242');
 
 // Add the message to the message queue
 $push->add($message);

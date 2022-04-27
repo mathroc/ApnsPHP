@@ -107,7 +107,7 @@ abstract class SharedConfig
     /** @var string|null Apple Key Identifier. */
     protected $providerKeyId;
 
-    /** @var string Root certification authority file. */
+    /** @var string|null Root certification authority file. */
     protected $rootCertAuthorityFile;
 
     /** @var int Write interval in micro seconds. */
@@ -119,7 +119,7 @@ abstract class SharedConfig
     /** @var int Socket select timeout in micro seconds. */
     protected $socketSelectTimeout;
 
-    /** @var \Psr\Log\LoggerInterface Logger. */
+    /** @var LoggerInterface|null Logger. */
     protected $logger;
 
     /** @var \CurlHandle|resource|false SSL Socket. */
@@ -154,7 +154,7 @@ abstract class SharedConfig
         }
         $this->protocol = $protocol;
 
-        $this->connectTimeout = ini_get("default_socket_timeout");
+        $this->connectTimeout = (int)ini_get("default_socket_timeout");
         $this->writeInterval = self::WRITE_INTERVAL;
         $this->connectRetryInterval = self::CONNECT_RETRY_INTERVAL;
         $this->socketSelectTimeout = self::SOCKET_SELECT_TIMEOUT;
@@ -173,7 +173,6 @@ abstract class SharedConfig
      * @param LoggerInterface $logger Logger instance.
      * @see \Psr\Log\LoggerInterface
      * @see EmbeddedLogger
-     *
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -183,7 +182,7 @@ abstract class SharedConfig
     /**
      * Get the Logger instance.
      *
-     * @return \Psr\Log\LoggerInterface Current Logger instance.
+     * @return LoggerInterface|null Current Logger instance.
      */
     public function getLogger()
     {
@@ -423,6 +422,7 @@ abstract class SharedConfig
         if ($this->hSocket !== false || is_resource($this->hSocket)) {
             $this->logger()->info('Disconnected.');
             if ($this->protocol === self::PROTOCOL_HTTP) {
+                /* @phpstan-ignore-next-line */
                 if ($this->hSocket) {
                     curl_close($this->hSocket);
                     $this->hSocket = false; // curl_close($handle) has not effect with PHP 8
@@ -447,6 +447,7 @@ abstract class SharedConfig
         $this->logger()->info("Trying to initialize HTTP/2 backend...");
 
         $this->hSocket = curl_init();
+        /* @phpstan-ignore-next-line */
         if (!$this->hSocket) {
             throw new Exception("Unable to initialize HTTP/2 backend.");
         }
@@ -546,7 +547,7 @@ abstract class SharedConfig
             );
         }
 
-        stream_set_blocking($this->hSocket, 0);
+        stream_set_blocking($this->hSocket, false);
         stream_set_write_buffer($this->hSocket, 0);
 
         $this->logger()->info("Connected to {$URL}.");
