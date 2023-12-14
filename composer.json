@@ -9,7 +9,7 @@
         "php": ">=7.4",
         "psr/log": "^1 || ^2 || ^3",
         "lib-openssl": "*",
-        "lcobucci/jwt": "^4.1.0",
+        "lcobucci/jwt": "^4.1.0 || ^5.0",
         "ext-curl": "*"
     },
     "autoload": {
